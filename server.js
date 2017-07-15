@@ -4,6 +4,7 @@
 const express = require('express');
 const cookieParser= require('cookie-parser');
 const bodyParser = require('body-parser');
+const validator = require('express-validator');
 const ejs = require('ejs');
 const engine = require('ejs-mate');
 const session = require('express-session');
@@ -60,6 +61,6 @@ require('./routes/users')(app,passport);
 });*/
 
 
-app.listen(2422,function () {
+app.listen(2822,function () {
     console.log("server has been triggered at port 2422")
 });

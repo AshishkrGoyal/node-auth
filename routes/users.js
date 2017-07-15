@@ -37,3 +37,8 @@ module.exports = (app,passport)=> {
         res.render('users/login',{title: 'login'});
     })
 };
+
+function validate(req,res,next) {
+
+    next();
+}
