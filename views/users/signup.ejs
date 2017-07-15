@@ -3,7 +3,7 @@
 <div class="container">
     <br><br>
     <div class="text-center reg_msg">
-        <h1><a href="/">RateMe</a></h1>
+        <h1><a href="/">@AshishkrGoyal</a></h1>
     </div>
     <br><br>
 
@@ -19,7 +19,14 @@
     </div><br>
 
     <div class="row signup">
-
+        <%if((messages.length>0)){%>
+        <%for(var i=0;i<messages.length; i++){%>
+        <div class="alert alert-danger">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">X</a>
+            <%=messages[i]%>
+        </div>
+        <%}%>
+        <%}%>
         <form method="POST" class="" id="signupForm" action="/signup">
 
             <div class="row">

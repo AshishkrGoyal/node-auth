@@ -49,3 +49,25 @@ passport.deserializeUser(function (id, done) {
         })
     }));
 
+    passport.use('local.login',new LocalStrategy(
+        {
+            usernameField: 'email',
+            passwordField: 'password',
+            passReqToCallback: true
+        }
+    ,function (req,email,password,done) {
+        User.findOne({'email':email},function (err,user) {
+            if(err)
+            {
+                return done(err);
+            }
+            var messages = [];
+            if(!user||!user.validPassword(password))
+            {
+                messages.push('email does not exist in mongodb');
+                done(null,false,req.flash('err',messages));
+            }
+            return done(null,user)
+        })
+    }));
+

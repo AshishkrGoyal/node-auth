@@ -13,8 +13,10 @@ const MongoStore = require('connect-mongo')(session);
 const passport = require('passport');
 const flash = require('connect-flash');
 require('./config/passport');
-mongoose.connect('mongodb://localhost/review_app');
+
 mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://localhost/review_app');
+/*mongoose.Promise = global.Promise;*/
 
 
 const app = express();
@@ -24,6 +26,8 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
 
+//must be used after body-pasrser middleware as per guidelines of docs.
+app.use(validator());
 
 
 

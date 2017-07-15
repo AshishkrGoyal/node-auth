@@ -12,10 +12,13 @@ module.exports = (app,passport)=> {
 
     app.get('/signup', (req,res) =>{
         //console.log("Ashish");
-        res.render('users/signup',{title:'sign up'});
+        //console.log(error);
+        const errors = req.flash('err');
+        console.log(errors);
+        res.render('users/signup',{title:'sign up', messages: errors});
     });
 
-    app.post('/signup',passport.authenticate('local', {
+    app.post('/signup',validate,passport.authenticate('local', {
             successRedirect: '/',
             failureRedirect: '/signup',
             failureFlash: true
@@ -35,10 +38,44 @@ module.exports = (app,passport)=> {
 
     app.get('/login',(req,res)=> {
         res.render('users/login',{title: 'login'});
-    })
+    });
+
+    app.post('/login',passport.authenticate('local.login',{
+        successRedirect: '/',
+        failureRedirect: '/login',
+        failureFlash: true
+    }))
 };
 
 function validate(req,res,next) {
 
-    next();
+
+    req.checkBody('fullname','Name is not entered').notEmpty();
+    req.checkBody('email','Email is not entered').notEmpty();
+    req.checkBody('password','Password is not entered').notEmpty();
+    req.checkBody('fullname','name length must be greater than 2 characters').isLength({min:2,max:25});
+    req.checkBody('email','email is not valid').isEmail();
+    req.checkBody('password','password must be greater than 5 char').isLength({min:5});
+
+
+    var errors = req.validationErrors();
+    //console.log(typeof errors);
+    if(errors)
+    {
+        var messages = [];
+
+        errors.forEach(function (error) {
+            messages.push(error.msg);
+        });
+        //console.log(messages);
+        req.flash('err',messages);
+        res.redirect('/signup');
+        /*console.log('')*/
+    }
+
+    else
+    {
+        next();
+    }
+    /*next();*/
 }
