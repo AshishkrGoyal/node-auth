@@ -14,7 +14,7 @@ const passport = require('passport');
 const flash = require('connect-flash');
 require('./config/passport');
 
-mongoose.Promise = global.Promise;
+mongoose.Promise = global.Promise;  //for creating my own lib as per docs.
 mongoose.connect('mongodb://localhost/review_app');
 /*mongoose.Promise = global.Promise;*/
 

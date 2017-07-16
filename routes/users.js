@@ -37,10 +37,12 @@ module.exports = (app,passport)=> {
     });*/
 
     app.get('/login',(req,res)=> {
-        res.render('users/login',{title: 'login'});
+        const errors = req.flash('err');
+        //const messages=[];
+        res.render('users/login',{title: 'login',messages:errors});
     });
 
-    app.post('/login',passport.authenticate('local.login',{
+    app.post('/login',validateLogin,passport.authenticate('local.login',{
         successRedirect: '/',
         failureRedirect: '/login',
         failureFlash: true
@@ -78,4 +80,28 @@ function validate(req,res,next) {
         next();
     }
     /*next();*/
+}
+
+function validateLogin(req,res,next) {
+    req.checkBody('email', 'email must be entered').notEmpty();
+    req.checkBody('email', 'email must be valid').isEmail();
+    req.checkBody('password', 'password must be entered').notEmpty();
+
+    var errors = req.validationErrors();
+    if(errors)
+    {
+        var messages=[];
+        errors.forEach((error)=>
+        {
+            messages.push(error.msg);
+            console.log(messages[0]);
+        });
+        req.flash('err',messages);
+        res.redirect('/login');
+    }
+    else
+    {
+        next();
+    }
+
 }
