@@ -26,6 +26,13 @@ module.exports = (app,passport)=> {
     ));
 
 
+
+    app.get('/forget',function (req,res) {
+        res.render('users/forget');
+    });
+
+
+
    /* app.post('/signup', function(req, res, next) {
         console.log(req.url);
         passport.authenticate('local', function(err, user, info) {
@@ -48,6 +55,10 @@ module.exports = (app,passport)=> {
         failureFlash: true
     }))
 };
+
+
+
+
 
 function validate(req,res,next) {
 
@@ -98,6 +109,7 @@ function validateLogin(req,res,next) {
         });
         req.flash('err',messages);
         res.redirect('/login');
+
     }
     else
     {

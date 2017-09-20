@@ -12,6 +12,12 @@ const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
 const passport = require('passport');
 const flash = require('connect-flash');
+const nodeMailer = require('nodemailer');
+const smtpTransport = require('nodemailer-smtp-transport');
+const async = require('async');
+
+
+
 require('./config/passport');
 
 mongoose.Promise = global.Promise;  //for creating my own lib as per docs.
